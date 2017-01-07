@@ -36,7 +36,7 @@ Player::~Player()
  * This is usually seen as a security flaw. Get in the habit of only approving "positive"
  * matches and rejecting anything which does not match.
  */
-bool Player::IsHitting() const //
+bool Player::IsHitting() const
 {
 	std::cout << m_Name << ", do you want a hit? (Y/N): ";
     char response;

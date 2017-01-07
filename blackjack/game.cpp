@@ -58,43 +58,59 @@ Game::~Game()
  */
 void Game::Play()
 {
-	std::vector<Player>::iterator players;
-	for (int i = 0; i < 2; i++) {
-		for (players = m_Players.begin();
-		 players != m_Players.end(); ++players)      
-        	m_Deck.Deal(*players);
-    	m_Deck.Deal(m_House);
-	}
-	m_House.FlipFirstCard();
-	for (players = m_Players.begin(); players != m_Players.end(); ++players)
-		std::cout << *players << "\n";
-	std::cout << m_House << "\n";
-	for (players = m_Players.begin();
-		 players != m_Players.end(); ++players)      
-        	m_Deck.AdditionalCards(*players);
-    m_House.FlipFirstCard();
-    std::cout << m_House << "\n";
+	//deal initial 2 cards to everyone
+    std::vector<Player>::iterator pPlayer;
+    for (int i = 0; i < 2; ++i)
+    {
+        for (pPlayer = m_Players.begin(); pPlayer != m_Players.end(); ++pPlayer)      
+            m_Deck.Deal(*pPlayer);
+        m_Deck.Deal(m_House);
+    }
+    
+    //hide house's first card
+    m_House.FlipFirstCard();    
+    
+    //display everyone's hand
+    for (pPlayer = m_Players.begin(); pPlayer != m_Players.end(); ++pPlayer)      
+        std::cout << *pPlayer << std::endl;
+    std::cout << m_House << std::endl;
+
+    //deal additional cards to players
+    for (pPlayer = m_Players.begin(); pPlayer != m_Players.end(); ++pPlayer)
+        m_Deck.AdditionalCards(*pPlayer);    
+
+    //reveal house's first card
+    m_House.FlipFirstCard();    
+    std::cout << std::endl << m_House; 
+  
+    //deal additional cards to house
     m_Deck.AdditionalCards(m_House);
-    if (m_House.IsBusted()) {
-    	for (players = m_Players.begin(); players != m_Players.end(); ++players) {
-    		if (!players->IsBusted())
-    			players->Win();
-    	}
+
+    if (m_House.IsBusted())
+    {
+        //everyone still playing wins
+        for (pPlayer = m_Players.begin(); pPlayer != m_Players.end(); ++pPlayer)      
+            if ( !(pPlayer->IsBusted()) )
+                pPlayer->Win();
     }
-    else {
-    	for (players = m_Players.begin(); players != m_Players.end(); ++players) {
-    		if (!players->IsBusted()) {
-    			if (players->GetTotal() > m_House.GetTotal())
-    				players->Win();
-    			else if (players->GetTotal() == m_House.GetTotal())
-    				players->Push();
-    			else
-    				players->Lose();
-    		}
-    	}
+    else
+    {
+         //compare each player still playing to house
+        for (pPlayer = m_Players.begin(); pPlayer != m_Players.end(); ++pPlayer)      
+            if ( !(pPlayer->IsBusted()) )
+            {
+                if (pPlayer->GetTotal() > m_House.GetTotal())
+                    pPlayer->Win();
+                else if (pPlayer->GetTotal() < m_House.GetTotal())
+                    pPlayer->Lose();
+                else
+                    pPlayer->Push();
+            }
     }
-    for (players = m_Players.begin(); players != m_Players.end(); ++players)
-    	players->Clear();
+
+    //remove everyone's cards
+    for (pPlayer = m_Players.begin(); pPlayer != m_Players.end(); ++pPlayer)      
+        pPlayer->Clear();
     m_House.Clear();
 }
 

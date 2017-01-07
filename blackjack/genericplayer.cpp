@@ -5,10 +5,9 @@
  *
  * Parameters: A reference to a std::string
  */
-GenericPlayer::GenericPlayer(const std::string& name) //
-{
-	m_Name = name;
-}
+GenericPlayer::GenericPlayer(const std::string& name): 
+    m_Name(name)
+{}
 
 /*
  * Destructor for a Generic Player
