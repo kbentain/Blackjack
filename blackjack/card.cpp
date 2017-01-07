@@ -10,11 +10,11 @@
  *      ifu - a boolean tell us whether the card is face up or not
  */
 
-Card::Card(rank r, suit s, bool ifu) //dc
+Card::Card(rank r, suit s, bool ifu) //
 {
 	m_Rank = r;
 	m_Suit = s;
-	m_IsFaceUp = ifu; //
+	m_IsFaceUp = ifu; 
 } 
 
 /*
@@ -31,11 +31,17 @@ Card::Card(rank r, suit s, bool ifu) //dc
  */
 int Card::GetValue() const
 {
-	if (!m_IsFaceUp) return 0;
-	if (m_Rank == ACE) return 1; 
-    if (10 > m_Rank && m_Rank > 1) return m_Rank;
-    if (m_Rank > 9 && m_Rank < 14) return 10;
-    return -1;
+	//if a cards is face down, its value is 0
+    int value = 0;
+    if (m_IsFaceUp)
+    {
+        //value is number showing on card
+        value = m_Rank;
+        //value is 10 for face cards
+        if (value > 10)
+            value = 10;
+    }
+    return value;
 }
 
 /*
@@ -48,10 +54,7 @@ int Card::GetValue() const
  */
 void Card::Flip()
 {
-	if (!m_IsFaceUp)
-		m_IsFaceUp = true;
-	else
-		m_IsFaceUp = false;
+	m_IsFaceUp = !(m_IsFaceUp);
 }
 
 
@@ -67,7 +70,7 @@ void Card::Flip()
  * Returns:
  *      a reference to an output stream
  */
-std::ostream& operator<<(std::ostream& os, const Card& aCard)
+std::ostream& operator<<(std::ostream& os, const Card& aCard) //
 {
 	if (!aCard.m_IsFaceUp)
 		os << "XX";

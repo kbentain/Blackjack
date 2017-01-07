@@ -8,6 +8,7 @@
  */
 Deck::Deck()
 {
+	m_Cards.reserve(52);
 	Populate();
 }
 
@@ -27,8 +28,8 @@ Deck::~Deck()
  */
 void Deck::Populate()
 {
-	m_Cards.clear();
-	m_Cards.reserve(52);
+	Clear();
+	
 	for (int i = 0; i < 4; i++)
 		for (int j = 0; j < 12; j++) {
 			m_Cards.push_back(new Card(static_cast<Card::rank>(j), static_cast<Card::suit>(i)));
