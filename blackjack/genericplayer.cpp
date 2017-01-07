@@ -5,7 +5,7 @@
  *
  * Parameters: A reference to a std::string
  */
-GenericPlayer::GenericPlayer(const std::string& name)
+GenericPlayer::GenericPlayer(const std::string& name) //
 {
 	m_Name = name;
 }
@@ -58,11 +58,23 @@ void GenericPlayer::Bust() const
  * Returns:
  *      a reference to an output stream
  */
-std::ostream& operator<<(std::ostream& os, const GenericPlayer& aGenericPlayer) //
+std::ostream& operator<<(std::ostream& os, const GenericPlayer& aGenericPlayer) 
 {
-	if (aGenericPlayer.m_Cards.empty())
-    	os << "<empty>\n";
+	  os << aGenericPlayer.m_Name << ":\t";
+    
+    std::vector<Card*>::const_iterator pCard;
+    if (!aGenericPlayer.m_Cards.empty())
+    {
+        for (pCard = aGenericPlayer.m_Cards.begin(); pCard != aGenericPlayer.m_Cards.end(); ++pCard)
+            os << *(*pCard) << "\t";
+
+        if (aGenericPlayer.GetTotal() != 0)
+            std::cout << "(" << aGenericPlayer.GetTotal() << ")";
+    }
     else
-    	os << aGenericPlayer.GetTotal();
+    {
+        os << "<empty>";
+    }
+        
     return os;
 }

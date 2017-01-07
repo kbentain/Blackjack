@@ -72,9 +72,14 @@ void Card::Flip()
  */
 std::ostream& operator<<(std::ostream& os, const Card& aCard) //
 {
-	if (!aCard.m_IsFaceUp)
-		os << "XX";
-	else
-		os << "Rank: " << aCard.m_Rank << "\nSuit: " << aCard.m_Suit;
+	const std::string RANKS[] = {"0", "A", "2", "3", "4", "5", "6", "7", "8", "9", 
+                            "10", "J", "Q", "K"};
+    const std::string SUITS[] = {"c", "d", "h", "s"};
+
+    if (aCard.m_IsFaceUp)
+        os << RANKS[aCard.m_Rank] << SUITS[aCard.m_Suit];
+    else
+        os << "XX";
+
     return os;
 }

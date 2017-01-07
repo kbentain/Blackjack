@@ -13,7 +13,6 @@
  */
 Game::Game(const std::vector<std::string>& names)
 {
-	m_Players.reserve(7);
     for (std::vector<std::string>::const_iterator pName = names.begin();
      pName != names.end(); ++pName)      
         m_Players.push_back(Player(*pName));
@@ -69,17 +68,17 @@ void Game::Play()
 	m_House.FlipFirstCard();
 	for (players = m_Players.begin(); players != m_Players.end(); ++players)
 		std::cout << *players << "\n";
-	std::cout << "House: " << m_House << "\n";
+	std::cout << m_House << "\n";
 	for (players = m_Players.begin();
 		 players != m_Players.end(); ++players)      
-        	m_Deck.Deal(*players);
+        	m_Deck.AdditionalCards(*players);
     m_House.FlipFirstCard();
-    std::cout << "House: " << m_House << "\n";
+    std::cout << m_House << "\n";
+    m_Deck.AdditionalCards(m_House);
     if (m_House.IsBusted()) {
     	for (players = m_Players.begin(); players != m_Players.end(); ++players) {
     		if (!players->IsBusted())
     			players->Win();
-    		players->Clear();
     	}
     }
     else {
@@ -92,9 +91,10 @@ void Game::Play()
     			else
     				players->Lose();
     		}
-    		players->Clear();
     	}
     }
+    for (players = m_Players.begin(); players != m_Players.end(); ++players)
+    	players->Clear();
     m_House.Clear();
 }
 

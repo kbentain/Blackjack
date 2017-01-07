@@ -44,9 +44,7 @@ bool House::IsHitting() const //expand
  */
 void House::FlipFirstCard()
 {
-	if (GetTotal() == 0) {
-		std::cout << "No card to flip!\n";
-		return;
-	}
-	m_Cards[0]->Flip();
+	if (!(m_Cards.empty()))
+        m_Cards[0]->Flip();
+    else std::cout << "No card to flip!\n";
 }

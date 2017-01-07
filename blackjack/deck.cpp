@@ -29,10 +29,9 @@ Deck::~Deck()
 void Deck::Populate()
 {
 	Clear();
-	
 	for (int i = 0; i < 4; i++)
 		for (int j = 0; j < 12; j++) {
-			m_Cards.push_back(new Card(static_cast<Card::rank>(j), static_cast<Card::suit>(i)));
+			Add(new Card(static_cast<Card::rank>(j), static_cast<Card::suit>(i)));
 		} 
 }
 
@@ -60,8 +59,8 @@ void Deck::Deal(Hand& aHand)
 	if (m_Cards.empty()) 
 		std::cout << "Out of cards. Unable to deal." << std::endl;
 	else {
-		srand(time(0));
-		aHand.Add(m_Cards[rand()%m_Cards.size()]);
+		aHand.Add(m_Cards.back());
+        m_Cards.pop_back();
 	}
 }
 

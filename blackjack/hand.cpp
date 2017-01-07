@@ -5,7 +5,7 @@
  */
 Hand::Hand()
 {
-
+	m_Cards.reserve(7);
 }
 
 /*
@@ -14,7 +14,9 @@ Hand::Hand()
  * REMEMBER every class that inherits from Hand will call this method
  */
 Hand::~Hand()  
-{}
+{
+	Clear();
+}
 
 /*
  * Add a card to your hand
@@ -24,7 +26,8 @@ Hand::~Hand()
  */
 void Hand::Add(Card* pCard)
 {
-	m_Cards.push_back(pCard);
+	if(pCard != nullptr)
+        m_Cards.push_back(pCard);
 }
  
 /*
@@ -36,6 +39,12 @@ void Hand::Add(Card* pCard)
  */
 void Hand::Clear()
 {
+	std::vector<Card*>::iterator iter = m_Cards.begin();
+    for (iter = m_Cards.begin(); iter != m_Cards.end(); ++iter)
+    {
+        delete *iter;
+        *iter = 0;
+    }
 	m_Cards.clear();
 }
 
@@ -52,17 +61,35 @@ void Hand::Clear()
  */
 int Hand::GetTotal() const
 {
-    if (m_Cards.empty()) return 0;
-    int points = 0;
-    int i = 0;
-    int temp;
-    for (std::vector<Card*>::const_iterator it = m_Cards.begin(); it != m_Cards.end(); ++it) {
-    	temp = m_Cards[i++]->GetValue();
-    	if (temp == 0) return 0;
-    	if (temp == 1 && points + 11 <= 21)
-    		points += 21; 
-    	else
-    		points += temp;
-    }
-    return points;
+    //if no cards in hand, return 0
+    if (m_Cards.empty())
+        return 0;
+  
+    //if a first card has value of 0, then card is face down; return 0
+    if (m_Cards[0]->GetValue() == 0)
+        return 0;
+    
+    //add up card values, treat each Ace as 1
+    int total = 0;
+    std::vector<Card*>::const_iterator iter;
+    for (iter = m_Cards.begin(); iter != m_Cards.end(); ++iter)
+        total += (*iter)->GetValue();
+                  
+    //determine if hand contains an Ace
+    bool containsAce = false;
+    for (iter = m_Cards.begin(); iter != m_Cards.end(); ++iter)
+        if ((*iter)->GetValue() == Card::ACE)
+            containsAce = true;
+          
+    /* if hand contains Ace and total is low enough, treat Ace as 11
+     * Don't forget if the total of the hand WITH the Ace would be 21,
+     * we could only have 11 currently.
+     * Also we can only do this for a maximum of one Ace. With two Aces we
+     * would have a value of 22, which is over 21.
+     */
+    if (containsAce && total <= 11)
+        //add only 10 since we've already added 1 for the Ace
+        total += 10;   
+            
+    return total;
 }
