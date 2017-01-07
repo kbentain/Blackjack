@@ -17,14 +17,6 @@ House::~House()
 {}
 
 /*
- * The Artificial intelligence for our computer player
- * Feel free to make this method as complex as you wish.
- * If you want to be as simple as possible, hit when you have <= 16 as your points
- *
- * You should return true whenever you think it would be a good time to ask for a card.
- * ALWAYS make AI methods modular so you can change parts as much as you wish.
- * AI can be done in different ways (Finite State Machines) or rules. Look up card counting
- * for a good blackjack AI idea.
  *
  * Parameters: None
  * Returns: ????? (up to you) a boolean whenever it wishes to draw a card

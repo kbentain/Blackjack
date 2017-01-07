@@ -25,16 +25,6 @@ Player::~Player()
  *      true if the answer was 'y' or 'Y'
  *      false otherwise
  *
- * Teaching moment:
- * There are multiple ways to handle this situation of taking input from a user.
- * We can have a few correct responses and a default answer "That's not a valid answer"
- * or we can use what is called a fail-safe default. That is to say if the answer is neither
- * 'y' or 'Y' we assume the answer is actually "No". Neither approach is really wrong.
- *
- * On the other hand, the one wrong answer would be to allow access or grant the request
- * for a "garbage" value. That is to say, we should not return true for the value 'x'.
- * This is usually seen as a security flaw. Get in the habit of only approving "positive"
- * matches and rejecting anything which does not match.
  */
 bool Player::IsHitting() const
 {

@@ -36,8 +36,6 @@ void Deck::Populate()
 
 /*
  * Shuffles all of the cards in the deck
- * Hint: If you get stuck, go read up on lesson 3 algorithm to learn about the standard library
- *
  * Parameters: None
  * Returns: None
  */
